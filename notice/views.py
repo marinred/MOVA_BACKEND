@@ -36,3 +36,11 @@ class NoticeDetailView(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)     
+            
+    def delete(self, request, notice_id):
+        notice = Notice.objects.get(id=notice_id)
+        if request.user == notice.user:
+            notice.delete()
+            return Response("삭제가 완료되었습니다.", status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response("권한이 존재하지 않습니다.", status=status.HTTP_403_FORBIDDEN)
