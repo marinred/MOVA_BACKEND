@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import datetime
 from webtoon.models import Webtoon
-from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer, WebtoonCommentSerializer
+from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer, WebtoonCommentSerializer, WebtoonCommentCreateSerializer
 
 # Webtoon Mainpage
 class WebtoonView(APIView):
@@ -63,3 +63,11 @@ class WebtoonComment(APIView):
         comments = webtoon.webtoon_comment_set.all()
         serializer = WebtoonCommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request, webtoon_id):
+        serializer = WebtoonCommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, webtoon_id=webtoon_id)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

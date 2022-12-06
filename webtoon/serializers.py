@@ -33,3 +33,8 @@ class WebtoonCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebtoonComment
         fields = ('id', 'username', 'webtoon', 'content', 'created_at' , 'updated_at',)
+        
+class WebtoonCommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WebtoonComment
+        fields = ('content',)
