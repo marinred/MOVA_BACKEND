@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import datetime
 from webtoon.models import Webtoon
-from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer
+from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer, WebtoonCommentSerializer
 
 # Webtoon Mainpage
 class WebtoonView(APIView):
@@ -56,3 +56,10 @@ class WebtoonBookmarkView(APIView):
         else:
             webtoon.webtoon_bookmarks.add(request.user)
             return Response("북마크 등록 완료!", status=status.HTTP_200_OK)
+        
+class WebtoonComment(APIView):
+    def get(self, request, webtoon_id):
+        webtoon = Webtoon.objects.get(id=webtoon_id)
+        comments = webtoon.webtoon_comment_set.all()
+        serializer = WebtoonCommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
