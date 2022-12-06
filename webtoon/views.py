@@ -1,9 +1,10 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import datetime
 from webtoon.models import Webtoon
 from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer
-import datetime
 
 class WebtoonView(APIView):
     def get(self, request):
@@ -18,3 +19,14 @@ class WebtoonDetailVeiw(APIView):
         webtoon_detail = Webtoon.objects.get(id=webtoon_id)
         webtoon_detail_serializer = WebtoonDetailVeiwSerializer(webtoon_detail)
         return Response(webtoon_detail_serializer.data, status=status.HTTP_200_OK)
+    
+class WebtoonLikeView(APIView):
+    def post(self, request, webtoon_id):
+        webtoon = get_object_or_404(Webtoon, id=webtoon_id)
+        print(request.user)
+        if request.user in webtoon.webtoon_likes.all():
+            webtoon.webtoon_likes.remove(request.user)
+            return Response("좋아요 취소 완료!", status=status.HTTP_200_OK)
+        else:
+            webtoon.webtoon_likes.add(request.user)
+            return Response("좋아요 등록 완료!", status=status.HTTP_200_OK)
