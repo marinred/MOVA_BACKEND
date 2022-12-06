@@ -1,9 +1,9 @@
-from django.shortcuts import get_object_or_404
+from rest_framework.generics import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import datetime
-from webtoon.models import Webtoon
+from webtoon.models import Webtoon, WebtoonComment
 from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer, WebtoonCommentSerializer, WebtoonCommentCreateSerializer
 
 # Webtoon Mainpage
@@ -57,7 +57,7 @@ class WebtoonBookmarkView(APIView):
             webtoon.webtoon_bookmarks.add(request.user)
             return Response("북마크 등록 완료!", status=status.HTTP_200_OK)
         
-class WebtoonComment(APIView):
+class WebtoonCommentView(APIView):
     def get(self, request, webtoon_id):
         webtoon = Webtoon.objects.get(id=webtoon_id)
         comments = webtoon.webtoon_comment_set.all()
@@ -71,3 +71,18 @@ class WebtoonComment(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class WebtoonDetailCommentView(APIView):
+    def put(self, request, webtoon_id, webtooncomment_id):
+        print(webtooncomment_id)
+        comment = get_object_or_404(WebtoonComment, id=webtooncomment_id)
+        print(comment)
+        if request.user == comment.user:
+            serializer = WebtoonCommentCreateSerializer(comment, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
