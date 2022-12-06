@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from webtoon.models import Webtoon
+from webtoon.models import Webtoon, WebtoonComment
 
 class WebtoonViewSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
@@ -23,3 +23,18 @@ class WebtoonDetailVeiwSerializer(serializers.ModelSerializer):
     class Meta:
         model = Webtoon
         fields = ('id', 'platform', 'title', 'author', 'image_url', 'summary', 'genre', 'day_of_the_week', 'webtoon_link', 'likes_count', 'bookmarks_count',)
+        
+class WebtoonCommentSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    
+    def get_username(self, obj):
+        return obj.user.username
+    
+    class Meta:
+        model = WebtoonComment
+        fields = ('id', 'username', 'webtoon', 'content', 'created_at' , 'updated_at',)
+        
+class WebtoonCommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WebtoonComment
+        fields = ('content',)
