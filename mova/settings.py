@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     
     "rest_framework",
     "rest_framework_simplejwt",
-    "user"
+    "user",
+    
+    "webtoon",
     
 ]
 
