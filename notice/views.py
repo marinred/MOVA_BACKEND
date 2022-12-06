@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from notice.models import Notice
 from notice.serializers import NoticeSerializer
+from notice.serializers import NoticeCreateSerializer
 
 
 # Create your views here.
@@ -30,12 +31,14 @@ class NoticeDetailView(APIView):
     def put(self, request, notice_id):
         notice = Notice.objects.get(id=notice_id)
         if request.user == notice.user:
-            serializer = NoticeSerializer(data=request.data)
+            serializer = NoticeCreateSerializer(notice, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)     
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("권한이 존재하지 않습니다.", status=status.HTTP_403_FORBIDDEN)
             
     def delete(self, request, notice_id):
         notice = Notice.objects.get(id=notice_id)
