@@ -5,6 +5,7 @@ from .serializers import FanartImageSerializer
 from .serializers import FanartImageCreateSerializer
 from .serializers import FanartImageGetSerializer
 from .serializers import FanartSerializer
+from .serializers import FanartGetListSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .colorization import sketchProcess
@@ -12,6 +13,7 @@ from .colorization import colorization
 from uuid import uuid4
 from .models import FanartImage
 from .models import BaseImage
+from .models import Fanart
 
 # Create your views here.
 class BaseImageView(APIView):
@@ -60,3 +62,8 @@ class FanartView(APIView):
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request):
+        fanart = Fanart.objects.all()
+        serializer = FanartGetListSerializer(fanart, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
