@@ -12,3 +12,6 @@ class Webtoon(models.Model):
     webtoon_link = models.CharField(max_length=100)
     webtoon_bookmarks = models.ManyToManyField(User, related_name="user_bookmarks")
     webtoon_likes= models.ManyToManyField(User, related_name="user_likes")
+    
+    def __str__(self):
+        return (f"{self.platform}, {self.title}")
