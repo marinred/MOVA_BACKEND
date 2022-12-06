@@ -4,6 +4,7 @@ from .serializers import BaseImageSerializer
 from .serializers import FanartImageSerializer
 from .serializers import FanartImageCreateSerializer
 from .serializers import FanartImageGetSerializer
+from .serializers import FanartSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .colorization import sketchProcess
@@ -51,3 +52,11 @@ class ColorizationView(APIView):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
             
 
+class FanartView(APIView):
+    def post(self, request):
+        serializer = FanartSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from fanart.models import BaseImage
 from fanart.models import FanartImage
+from fanart.models import Fanart
 from uuid import uuid4
 
 class BaseImageSerializer(serializers.ModelSerializer):
@@ -37,4 +38,12 @@ class FanartImageGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = FanartImage
         fields = '__all__'
-              
+
+class FanartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fanart
+        fields = '__all__'
+        extra_kwargs = {
+            'user':{'read_only':True},
+            'likes': {'required': False},
+        }
