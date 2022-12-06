@@ -10,5 +10,5 @@ class Webtoon(models.Model):
     genre = models.CharField(max_length=20)
     day_of_the_week = models.CharField(max_length=10)
     webtoon_link = models.CharField(max_length=100)
-    webtoon_bookmarks = models.ManyToManyField(User)
-    webtoon_likes= models.ManyToManyField(User)
+    webtoon_bookmarks = models.ManyToManyField(User, related_name="user_bookmarks")
+    webtoon_likes= models.ManyToManyField(User, related_name="user_likes")
