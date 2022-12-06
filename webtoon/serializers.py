@@ -9,4 +9,10 @@ class WebtoonViewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Webtoon
-        fields = ('id', 'platform', 'title', 'image_url', 'day_of_the_week', 'likes_count',)
+        fields = ('id', 'platform', 'author', 'title', 'genre', 'image_url', 'day_of_the_week', 'likes_count',)
+        
+class WebtoonDetailVeiwSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Webtoon
+        fields = '__all__'
