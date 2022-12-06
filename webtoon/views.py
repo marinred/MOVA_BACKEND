@@ -30,3 +30,14 @@ class WebtoonLikeView(APIView):
         else:
             webtoon.webtoon_likes.add(request.user)
             return Response("좋아요 등록 완료!", status=status.HTTP_200_OK)
+        
+class WebtoonBookmarkView(APIView):
+    def post(self, request, webtoon_id):
+        webtoon = get_object_or_404(Webtoon, id=webtoon_id)
+        print(request.user)
+        if request.user in webtoon.webtoon_bookmarks.all():
+            webtoon.webtoon_bookmarks.remove(request.user)
+            return Response("북마크 취소 완료!", status=status.HTTP_200_OK)
+        else:
+            webtoon.webtoon_bookmarks.add(request.user)
+            return Response("북마크 등록 완료!", status=status.HTTP_200_OK)
