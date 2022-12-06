@@ -67,3 +67,8 @@ class FanartView(APIView):
         fanart = Fanart.objects.all()
         serializer = FanartGetListSerializer(fanart, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def delete(self, request, fanart_id):
+        fanart = Fanart.objects.get(id=fanart_id)
+        fanart.delete()
+        return Response("삭제완료",status=status.HTTP_200_OK)
