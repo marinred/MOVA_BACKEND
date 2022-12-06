@@ -74,9 +74,7 @@ class WebtoonCommentView(APIView):
         
 class WebtoonDetailCommentView(APIView):
     def put(self, request, webtoon_id, webtooncomment_id):
-        print(webtooncomment_id)
         comment = get_object_or_404(WebtoonComment, id=webtooncomment_id)
-        print(comment)
         if request.user == comment.user:
             serializer = WebtoonCommentCreateSerializer(comment, data=request.data)
             if serializer.is_valid():
@@ -84,5 +82,13 @@ class WebtoonDetailCommentView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
+    
+    def delete(self, request, webtoon_id, webtooncomment_id):
+        comment = get_object_or_404(WebtoonComment, id=webtooncomment_id)
+        if request.user == comment.user:
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
