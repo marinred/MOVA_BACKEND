@@ -3,6 +3,7 @@ from fanart.models import BaseImage
 from fanart.models import FanartImage
 from fanart.models import Fanart
 from user.models import User
+from fanart.models import FanartComment
 from uuid import uuid4
 
 class BaseImageSerializer(serializers.ModelSerializer):
@@ -60,3 +61,12 @@ class FanartGetListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fanart
         fields = '__all__'
+
+class FanartCommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FanartComment
+        fields = '__all__'
+        extra_kwargs = {
+            'user':{'read_only':True},
+            'fanart':{'read_only':True},
+        }

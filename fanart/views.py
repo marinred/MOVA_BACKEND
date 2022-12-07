@@ -6,6 +6,7 @@ from .serializers import FanartImageCreateSerializer
 from .serializers import FanartImageGetSerializer
 from .serializers import FanartSerializer
 from .serializers import FanartGetListSerializer
+from .serializers import FanartCommentCreateSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .colorization import sketchProcess
@@ -72,3 +73,13 @@ class FanartView(APIView):
         fanart = Fanart.objects.get(id=fanart_id)
         fanart.delete()
         return Response("삭제완료",status=status.HTTP_200_OK)
+
+class FanartCommentView(APIView):
+    def post(self, request, fanart_id):
+        serializer = FanartCommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(fanart_id=fanart_id,user=request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        

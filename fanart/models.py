@@ -30,3 +30,10 @@ class Fanart(models.Model):
     count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class FanartComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    fanart = models.ForeignKey(Fanart, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
