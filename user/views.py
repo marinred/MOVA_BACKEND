@@ -36,4 +36,13 @@ class ProfileView(APIView):
         serializer_user = UserProfileSerializers(user)
         return Response(serializer_user.data, status=status.HTTP_200_OK)
     
+#프로필수정
+    def put(self, request):
+            user = get_object_or_404(User, id=request.user.id)
+            serializer = UserProfileUpdateSerializers(user, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
