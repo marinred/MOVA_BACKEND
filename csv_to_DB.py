@@ -13,7 +13,7 @@ naver_webtoon_finish_path = './csv/naver_webtoon_finish.csv'
 kakao_webtoon_path = './csv/kakao_webtoon_weekday.csv'
 
 def insert_naver_webtoon():
-    with open(naver_webtoon_path) as csv_file:
+    with open(naver_webtoon_path, encoding='UTF-8') as csv_file:
         data_reader = csv.reader(csv_file)
         next(data_reader, None)
         for row in data_reader:
@@ -38,7 +38,7 @@ def insert_naver_webtoon():
                 )
                 
 def insert_naver_webtoon_finish():
-    with open(naver_webtoon_finish_path) as csv_file:
+    with open(naver_webtoon_finish_path, encoding='UTF-8') as csv_file:
         data_reader = csv.reader(csv_file)
         next(data_reader, None)
         for row in data_reader:
@@ -62,7 +62,7 @@ def insert_naver_webtoon_finish():
                     webtoon_link= webtoon_link
                 )
 def insert_kakao_webtoon():
-    with open(kakao_webtoon_path) as csv_file:
+    with open(kakao_webtoon_path, encoding='UTF-8') as csv_file:
         data_reader = csv.reader(csv_file)
         next(data_reader, None)
         for row in data_reader:

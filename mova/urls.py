@@ -5,5 +5,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("user/", include("user.urls")),
     path("notice/", include("notice.urls")),
+    path("board/", include("board.urls")),
     path("", include("webtoon.urls")),
 ]
