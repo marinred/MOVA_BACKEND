@@ -94,3 +94,7 @@ class FanartCommentView(APIView):
         else:
             return Response(serializer.errors)
         
+    def delete(self, request, fanart_id, comment_id):
+        comment = FanartComment.objects.get(id=comment_id)
+        comment.delete()
+        return Response("삭제완료",status=status.HTTP_200_OK)
