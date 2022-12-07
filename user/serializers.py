@@ -31,12 +31,12 @@ class CustomObtainPairSerializer(TokenObtainPairSerializer):
 class UserProfileSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "bio" , "image")
+        fields = '__all__'
         
 # 프로필 수정
 class UserProfileUpdateSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "bio" , "image")
+        fields = ("id", "username", "email", "bio" , "image",)
     
     extra_kwargs = {'image': {'required': False}}
