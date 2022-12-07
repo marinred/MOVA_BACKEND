@@ -12,8 +12,13 @@ class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = '__all__'
-        
+
+class BoardPostSeializer(serializers.ModelSerializer):
+    class Meta:
+        model = Board
+        fields = ("category", "title", "content", "webtoon","get_user")
+
 class BoardDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ("title", "content", "category")
+        fields = ("title", "content", "category","image", "webtoon",)
