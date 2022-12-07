@@ -6,6 +6,7 @@ from .serializers import FanartImageCreateSerializer
 from .serializers import FanartImageGetSerializer
 from .serializers import FanartSerializer
 from .serializers import FanartGetListSerializer
+from .serializers import FanartGetSerializer
 from .serializers import FanartCommentCreateSerializer
 from .serializers import FanartPutSerializer
 from rest_framework.response import Response
@@ -57,6 +58,13 @@ class ColorizationView(APIView):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
             
 
+
+class FanartListView(APIView):
+    def get(self, request):
+        fanart = Fanart.objects.all()
+        serializer = FanartGetListSerializer(fanart, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
 class FanartView(APIView):
     def post(self, request):
         serializer = FanartSerializer(data=request.data)
@@ -65,10 +73,10 @@ class FanartView(APIView):
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-    
-    def get(self, request):
-        fanart = Fanart.objects.all()
-        serializer = FanartGetListSerializer(fanart, many=True)
+
+    def get(self, request, fanart_id):
+        fanart = Fanart.objects.get(id=fanart_id)
+        serializer = FanartGetSerializer(fanart)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
     def delete(self, request, fanart_id):

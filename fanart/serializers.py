@@ -62,6 +62,13 @@ class FanartGetListSerializer(serializers.ModelSerializer):
         model = Fanart
         fields = '__all__'
 
+class FanartGetSerializer(serializers.ModelSerializer):
+    image = FanartImageGetSerializer()
+    user = UsersampleSerializer()
+    class Meta:
+        model = Fanart
+        fields = '__all__'
+
 class FanartCommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = FanartComment
