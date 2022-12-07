@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "webtoon",
     
     "notice",
-    
+    "board",
 ]
 
 REST_FRAMEWORK = {
