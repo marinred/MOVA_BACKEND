@@ -70,3 +70,8 @@ class FanartCommentCreateSerializer(serializers.ModelSerializer):
             'user':{'read_only':True},
             'fanart':{'read_only':True},
         }
+
+class FanartPutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FanartComment
+        fields = ('content','updated_at')

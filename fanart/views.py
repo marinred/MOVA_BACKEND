@@ -7,6 +7,7 @@ from .serializers import FanartImageGetSerializer
 from .serializers import FanartSerializer
 from .serializers import FanartGetListSerializer
 from .serializers import FanartCommentCreateSerializer
+from .serializers import FanartPutSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .colorization import sketchProcess
@@ -15,6 +16,7 @@ from uuid import uuid4
 from .models import FanartImage
 from .models import BaseImage
 from .models import Fanart
+from .models import FanartComment
 
 # Create your views here.
 class BaseImageView(APIView):
@@ -82,4 +84,13 @@ class FanartCommentView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, fanart_id, comment_id):
+        comment = FanartComment.objects.get(id=comment_id)
+        serializer = FanartPutSerializer(comment,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors)
         
