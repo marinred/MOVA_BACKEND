@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from board.models import Board
-from board.models import BoardComment
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -13,12 +12,11 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = '__all__'
 
-class BoardPostSeializer(serializers.ModelSerializer):
-    class Meta:
-        model = Board
-        fields = ("category", "title", "content", "webtoon","get_user")
-
 class BoardDetailSerializer(serializers.ModelSerializer):
+    board_user = serializers.SerializerMethodField()
+    
+    def get_board_user(self, obj):
+        return obj.user.username
     class Meta:
         model = Board
-        fields = ("title", "content", "category","image", "webtoon",)
+        fields = ("title", "content", "category","image", "webtoon","board_user",)

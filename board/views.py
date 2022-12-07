@@ -15,7 +15,6 @@ class BoardView(APIView):
     
     def post(self, request):
         serializer = BoardDetailSerializer(data=request.data)
-        print(serializer.initial_data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
