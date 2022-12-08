@@ -77,4 +77,12 @@ class BoardCommentDetailView(APIView):
                 return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
         else:
             return Response("권한이 존재하지 않습니다.", status=status.HTTP_403_FORBIDDEN)
+        
+    def delete(self, request, board_id, boardcomment_id):
+        comment = BoardComment.objects.get(id=boardcomment_id)
+        if request.user == comment.user:
+            comment.delete()
+            return Response("삭제가 완료되었습니다.", status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response("권한이 존재하지 않습니다.", status=status.HTTP_403_FORBIDDEN)
             
