@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Webtoon
+from webtoon.models import Webtoon, WebtoonComment
 
-# Register your models here.
 admin.site.register(Webtoon)
+admin.site.register(WebtoonComment)

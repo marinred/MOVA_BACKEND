@@ -7,15 +7,23 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    initial = True
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ("board", "0001_initial"),
     ]
 
     operations = [
+        migrations.RemoveField(
+            model_name="board",
+            name="count",
+        ),
+        migrations.AlterField(
+            model_name="board",
+            name="image",
+            field=models.ImageField(max_length=255, null=True, upload_to=""),
+        ),
         migrations.CreateModel(
-            name="Notice",
+            name="BoardComment",
             fields=[
                 (
                     "id",
@@ -26,11 +34,15 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("category", models.CharField(max_length=30)),
-                ("title", models.CharField(max_length=50)),
-                ("content", models.TextField()),
+                ("comment", models.TextField()),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "board",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="board.board"
+                    ),
+                ),
                 (
                     "user",
                     models.ForeignKey(
