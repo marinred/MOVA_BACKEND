@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
-    "user"
-    
+
+    "user",
+    "fanart",
+    "webtoon",  
+    "notice",
+    "board",
 ]
 
 REST_FRAMEWORK = {
