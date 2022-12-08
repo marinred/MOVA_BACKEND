@@ -12,6 +12,10 @@ class NoticeSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class NoticeCreateSerializer(serializers.ModelSerializer):
+    notice_user = serializers.SerializerMethodField()
+    
+    def get_notice_user(self, obj):
+        return obj.user.username
     class Meta:
         model = Notice
-        fields = ("title", "content", "category")
+        fields = ("title", "content", "category", "notice_user",)
