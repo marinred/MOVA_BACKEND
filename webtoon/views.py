@@ -23,7 +23,7 @@ class WebtoonView(APIView):
         
         # Likes Webtoon View
         user = self.request.user
-        bookmarks_webtoon = user.user_bookmarks.all()
+        bookmarks_webtoon = user.webtoon_bookmarks_set.all()
         bookmarks_webtoon_serializer = WebtoonViewSerializer(bookmarks_webtoon, many=True)
         
         response_data = []
