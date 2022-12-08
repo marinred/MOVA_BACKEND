@@ -6,7 +6,6 @@ from board.serializers import BoardSerializer
 from board.serializers import BoardDetailSerializer
 from board.serializers import BoardCommentSerializer
 from board.serializers import BoardCommentCreateSerializer
-
 # Create your views here.
 class BoardView(APIView):
     def get(self, request):
@@ -55,4 +54,12 @@ class BoardCommentView(APIView):
         comments = board.board_comment_set.all()
         serializer = BoardCommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request, board_id):
+        serializer = BoardCommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, board_id=board_id)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
