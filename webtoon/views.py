@@ -10,11 +10,16 @@ from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializ
 class WebtoonView(APIView):
     def get(self, request):
         
-        # Today Webtoon View
         days=['월', '화', '수', '목', '금', '토', '일']
         a = datetime.datetime.today().weekday()
-        today_webtoon = Webtoon.objects.filter(day_of_the_week=days[a])
-        today_webtoon_serializer = WebtoonViewSerializer(today_webtoon, many=True)
+        
+        # Naver Today Webtoon View
+        naver_today_webtoon = Webtoon.objects.filter(day_of_the_week=days[a], platform="네이버")
+        naver_today_webtoon_serializer = WebtoonViewSerializer(naver_today_webtoon, many=True)
+        
+        # Naver Today Webtoon View
+        kakao_today_webtoon = Webtoon.objects.filter(day_of_the_week=days[a], platform="카카오")
+        kakao_today_webtoon_serializer = WebtoonViewSerializer(kakao_today_webtoon, many=True)
         
         # Likes Webtoon View
         user = self.request.user
@@ -22,7 +27,8 @@ class WebtoonView(APIView):
         bookmarks_webtoon_serializer = WebtoonViewSerializer(bookmarks_webtoon, many=True)
         
         response_data = []
-        response_data.append(today_webtoon_serializer.data)
+        response_data.append(naver_today_webtoon_serializer.data)
+        response_data.append(kakao_today_webtoon_serializer.data)
         response_data.append(bookmarks_webtoon_serializer.data)
         return Response(response_data, status=status.HTTP_200_OK)
 
