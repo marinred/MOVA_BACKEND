@@ -26,7 +26,7 @@ class Fanart(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField() # 그림 설명
     image = models.ForeignKey(FanartImage, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(User,related_name='user_likes')
+    likes = models.ManyToManyField(User,related_name='user_fanart_likes')
     count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
