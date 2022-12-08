@@ -38,12 +38,13 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    image = models.ImageField(upload_to='user/', max_length=255, null=True,)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email' # username_field를 email로 변경
+    USERNAME_FIELD = 'email' # username_field를 email로 변경 username을 써야하나??
     REQUIRED_FIELDS = ['username']
 
     def __str__(self):
@@ -64,3 +65,4 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self
+
