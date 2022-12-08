@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.BoardView.as_view(), name='board_view'),
     path('<int:board_id>/', views.BoardDetailView.as_view(), name='board_detail_view'),
+    path('<int:board_id>/comment/', views.BoardCommentView.as_view(), name='board_comment_view'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
