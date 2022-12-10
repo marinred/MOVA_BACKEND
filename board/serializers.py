@@ -33,15 +33,19 @@ class BoardCommentSerializer(serializers.ModelSerializer):
 class BoardDetailSerializer(serializers.ModelSerializer):
     board_user = serializers.SerializerMethodField()
     webtoon_title = serializers.SerializerMethodField()
+    board_user_profile_image = serializers.SerializerMethodField()
     
     def get_board_user(self, obj):
         return obj.user.username
     
     def get_webtoon_title(self,obj):
         return obj.webtoon.title
+    
+    def get_board_user_profile_image(self, obj):
+        return obj.user.image.url
     class Meta:
         model = Board
-        fields = ("title", "content","image", "webtoon","board_user","category_name","webtoon_title",)
+        fields = ("board_user","board_user_profile_image", "title", "content","image", "webtoon","category_name","webtoon_title",)
 
 class BoardCommentCreateSerializer(serializers.ModelSerializer):
     comments_user = serializers.SerializerMethodField()
