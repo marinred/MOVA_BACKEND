@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from board.models import Board
 from board.models import BoardComment
+from webtoon.models import Webtoon
 
-
+class WebtoonSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Webtoon
+        fields = ('title','id','image_url',)
 class BoardSerializer(serializers.ModelSerializer):
     board_user = serializers.SerializerMethodField()
     
@@ -28,12 +32,16 @@ class BoardCommentSerializer(serializers.ModelSerializer):
 
 class BoardDetailSerializer(serializers.ModelSerializer):
     board_user = serializers.SerializerMethodField()
+    webtoon_title = serializers.SerializerMethodField()
     
     def get_board_user(self, obj):
         return obj.user.username
+    
+    def get_webtoon_title(self,obj):
+        return obj.webtoon.title
     class Meta:
         model = Board
-        fields = ("title", "content","image", "webtoon","board_user","category_name",)
+        fields = ("title", "content","image", "webtoon","board_user","category_name","webtoon_title",)
 
 class BoardCommentCreateSerializer(serializers.ModelSerializer):
     comments_user = serializers.SerializerMethodField()
