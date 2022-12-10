@@ -1,18 +1,16 @@
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
+from board.pagination import BoardPagination
 from rest_framework import status
 from rest_framework.response import Response
 from board.models import Board
 from board.models import BoardComment
-from board.serializers import BoardSerializer
 from board.serializers import BoardDetailSerializer
 from board.serializers import BoardCommentSerializer
 from board.serializers import BoardCommentCreateSerializer
 # Create your views here.
 class BoardView(APIView):
-    def get(self, request):
-        board = Board.objects.all()
-        serializer = BoardSerializer(board, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request):
         serializer = BoardDetailSerializer(data=request.data)
@@ -86,3 +84,10 @@ class BoardCommentDetailView(APIView):
         else:
             return Response("권한이 존재하지 않습니다.", status=status.HTTP_403_FORBIDDEN)
             
+            
+class SearchBoardView(ListAPIView):
+    queryset = Board.objects.all()
+    serializer_class = BoardDetailSerializer
+    pagination_class = BoardPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title',)
