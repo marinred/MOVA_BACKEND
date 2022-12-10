@@ -6,14 +6,13 @@ from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter
 from notice.pagination import NoticePagination
 from notice.serializers import NoticeSerializer
-from notice.serializers import NoticeCreateSerializer
 
 
 # Create your views here.
 
 class NoticeView(APIView):
     def post(self, request):
-        serializer = NoticeCreateSerializer(data=request.data)
+        serializer = NoticeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -29,7 +28,7 @@ class NoticeDetailView(APIView):
     def put(self, request, notice_id):
         notice = Notice.objects.get(id=notice_id)
         if request.user == notice.user:
-            serializer = NoticeCreateSerializer(notice, data=request.data)
+            serializer = NoticeSerializer(notice, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
