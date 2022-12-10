@@ -15,23 +15,25 @@ class BoardSerializer(serializers.ModelSerializer):
 
 class BoardCommentSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
+    user_profile_image = serializers.SerializerMethodField()
     
     def get_username(self, obj):
-        return obj.user.username  
+        return obj.user.username
+    
+    def get_user_profile_image(self, obj):
+        return obj.user.image.url
     class Meta:
         model = BoardComment
-        fields = ('id', 'username', 'board', 'comment', 'created_at' , 'updated_at',)
+        fields = ('id', 'username', 'board', 'comment', 'created_at' , 'updated_at', 'user_profile_image',)
 
 class BoardDetailSerializer(serializers.ModelSerializer):
     board_user = serializers.SerializerMethodField()
-    board_comment_set = BoardCommentSerializer(many=True)
     
     def get_board_user(self, obj):
         return obj.user.username
     class Meta:
         model = Board
-        fields = ("title", "content", "category","image", "webtoon","board_user","board_comment_set",)
-    
+        fields = ("title", "content","image", "webtoon","board_user","category_name",)
 
 class BoardCommentCreateSerializer(serializers.ModelSerializer):
     comments_user = serializers.SerializerMethodField()
