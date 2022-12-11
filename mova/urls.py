@@ -10,6 +10,7 @@ urlpatterns = [
     path("notice/", include("notice.urls")),
     path("board/", include("board.urls")),
     path("", include("webtoon.urls")),
+    path("fanart/", include("fanart.urls")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
