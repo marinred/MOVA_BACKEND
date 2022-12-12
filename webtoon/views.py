@@ -79,6 +79,11 @@ class WebtoonCommentView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class WebtoonDetailCommentView(APIView):
+    def get(self, request, webtoon_id, webtooncomment_id):
+        comment = get_object_or_404(WebtoonComment, id=webtooncomment_id)
+        serializer = WebtoonCommentSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
     def put(self, request, webtoon_id, webtooncomment_id):
         comment = get_object_or_404(WebtoonComment, id=webtooncomment_id)
         if request.user == comment.user:
