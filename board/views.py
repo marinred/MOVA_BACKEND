@@ -66,6 +66,11 @@ class BoardCommentView(APIView):
         
         
 class BoardCommentDetailView(APIView):
+    def get(self, request, board_id, boardcomment_id):
+        comment = BoardComment.objects.get(id=boardcomment_id)
+        serializer = BoardCommentCreateSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
     def put(self, request, board_id, boardcomment_id):
         comment = BoardComment.objects.get(id=boardcomment_id)
         if request.user == comment.user:
