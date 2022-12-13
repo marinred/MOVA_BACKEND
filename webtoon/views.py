@@ -2,7 +2,10 @@ from rest_framework.generics import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
 import datetime
+from webtoon.pagination import WebtoonMPagination
 from webtoon.models import Webtoon, WebtoonComment
 from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer, WebtoonCommentSerializer, WebtoonCommentCreateSerializer
 
@@ -62,7 +65,8 @@ class WebtoonBookmarkView(APIView):
         else:
             webtoon.webtoon_bookmarks.add(request.user)
             return Response("북마크 등록 완료!", status=status.HTTP_200_OK)
-        
+
+# Webtoon Comment   
 class WebtoonCommentView(APIView):
     def get(self, request, webtoon_id):
         webtoon = Webtoon.objects.get(id=webtoon_id)
@@ -103,3 +107,39 @@ class WebtoonDetailCommentView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
+        
+# Category Webtoon View
+class AllWebtoonView(ListAPIView):
+    queryset = Webtoon.objects.all()
+    serializer_class = WebtoonViewSerializer
+    pagination_class = WebtoonMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title', 'genre',)
+    
+class NaverWebtoonView(ListAPIView):
+    queryset = Webtoon.objects.filter(platform="네이버", day_of_the_week__in=['월', '화', '수', '목', '금', '토', '일'])
+    serializer_class = WebtoonViewSerializer
+    pagination_class = WebtoonMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title', 'genre',)
+    
+class NaverEndWebtoonView(ListAPIView):
+    queryset = Webtoon.objects.filter(platform="네이버", day_of_the_week="X(완결)")
+    serializer_class = WebtoonViewSerializer
+    pagination_class = WebtoonMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title', 'genre',)
+    
+class KakaoWebtoonView(ListAPIView):
+    queryset = Webtoon.objects.filter(platform="카카오", day_of_the_week__in=['월', '화', '수', '목', '금', '토', '일'])
+    serializer_class = WebtoonViewSerializer
+    pagination_class = WebtoonMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title', 'genre',)
+    
+class KakaoendWebtoonView(ListAPIView):
+    queryset = Webtoon.objects.filter(platform="카카오", day_of_the_week="X(완결)")
+    serializer_class = WebtoonViewSerializer
+    pagination_class = WebtoonMPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title', 'genre',)
