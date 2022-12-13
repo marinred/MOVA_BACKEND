@@ -6,7 +6,7 @@ from webtoon.models import Webtoon
 class WebtoonSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Webtoon
-        fields = ('title','id','image_url',)
+        fields = ('title','id','image_url',"author",)
 class BoardSerializer(serializers.ModelSerializer):
     board_user = serializers.SerializerMethodField()
     
@@ -34,6 +34,7 @@ class BoardDetailSerializer(serializers.ModelSerializer):
     board_user = serializers.SerializerMethodField()
     webtoon_title = serializers.SerializerMethodField()
     board_user_profile_image = serializers.SerializerMethodField()
+    board_category_name = serializers.SerializerMethodField()
     
     def get_board_user(self, obj):
         return obj.user.username
@@ -43,9 +44,12 @@ class BoardDetailSerializer(serializers.ModelSerializer):
     
     def get_board_user_profile_image(self, obj):
         return obj.user.image.url
+    
+    def get_board_category_name(self, obj):
+        return obj.category_name.category_name
     class Meta:
         model = Board
-        fields = ("board_user","board_user_profile_image", "title", "content","image", "webtoon","category_name","webtoon_title",)
+        fields = ("id", "board_user","board_user_profile_image", "title", "content","image","category_name", "webtoon","webtoon_title","board_category_name","created_at","updated_at",)
 
 class BoardCommentCreateSerializer(serializers.ModelSerializer):
     comments_user = serializers.SerializerMethodField()
@@ -59,4 +63,4 @@ class BoardCommentCreateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = BoardComment
-        fields = ('comment', 'comments_board', 'comments_user',)
+        fields = ('id', 'comment', 'comments_board', 'comments_user',)
