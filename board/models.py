@@ -16,7 +16,6 @@ class Board(models.Model):
     category_name = models.ForeignKey(BoardCategory, on_delete=models.CASCADE)
     title = models.CharField(max_length=30)
     content = models.TextField()
-    image = models.ImageField(upload_to='', max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

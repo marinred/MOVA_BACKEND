@@ -49,7 +49,7 @@ class BoardDetailSerializer(serializers.ModelSerializer):
         return obj.category_name.category_name
     class Meta:
         model = Board
-        fields = ("id", "board_user","board_user_profile_image", "title", "content","image","category_name", "webtoon","webtoon_title","board_category_name","created_at","updated_at",)
+        fields = ("id", "board_user","board_user_profile_image", "title", "content","category_name", "webtoon","webtoon_title","board_category_name","created_at","updated_at",)
 
 class BoardCommentCreateSerializer(serializers.ModelSerializer):
     comments_user = serializers.SerializerMethodField()
