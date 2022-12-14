@@ -18,6 +18,7 @@ from .models import FanartImage
 from .models import BaseImage
 from .models import Fanart
 from .models import FanartComment
+from django.db.models import Count
 
 # Create your views here.
 class BaseImageView(APIView):
@@ -74,7 +75,7 @@ class FanartListView(APIView):
         fanart = Fanart.objects.all()
         serializer = FanartGetListSerializer(fanart, many=True)
         serializer_list.append(serializer.data)
-        fanart_likes = Fanart.objects.all()
+        fanart_likes = Fanart.objects.annotate(like_count=Count('likes')).order_by('-like_count')
         serializer_likes = FanartGetListSerializer(fanart_likes,many=True)
         serializer_list.append(serializer_likes.data)
         return Response(serializer_list,status=status.HTTP_200_OK)
@@ -128,3 +129,13 @@ class FanartCommentView(APIView):
         comment.delete()
         return Response("삭제완료",status=status.HTTP_200_OK)
 
+class FanartLike(APIView):
+    def post(self, request, fanart_id):
+        fanart = Fanart.objects.get(id=fanart_id)
+        print(request.user)
+        if request.user in fanart.likes.all():
+            fanart.likes.remove(request.user)
+            return Response("좋아요 취소 완료!", status=status.HTTP_200_OK)
+        else:
+            fanart.likes.add(request.user)
+            return Response("좋아요 등록 완료!", status=status.HTTP_200_OK)
