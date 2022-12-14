@@ -106,6 +106,20 @@ class SearchWebtoonView(ListAPIView):
     filter_backends = [SearchFilter]
     search_fields = ('title',)
     
+class SearchDiscussionView(ListAPIView):
+    queryset = Board.objects.filter(category_name="1")
+    serializer_class = BoardDetailSerializer
+    pagination_class = BoardPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title',)
+
+class SearchFanboardView(ListAPIView):
+    queryset = Board.objects.filter(category_name="2")
+    serializer_class = BoardDetailSerializer
+    pagination_class = BoardPagination
+    filter_backends = [SearchFilter]
+    search_fields = ('title',)
+    
     
 class CreateBoardView(APIView):
     def post(self, request):
