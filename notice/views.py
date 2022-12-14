@@ -45,9 +45,19 @@ class NoticeDetailView(APIView):
         else:
             return Response("권한이 존재하지 않습니다.", status=status.HTTP_403_FORBIDDEN)
         
-class SearchNoticeView(ListAPIView):
+class SearchAllView(ListAPIView):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
     pagination_class = NoticePagination
     filter_backends = [SearchFilter]
     search_fields = ('title',)
+    
+class SearchNoticeView(ListAPIView):
+    queryset = Notice.objects.filter(category_name="1")
+    serializer_class = NoticeSerializer
+    pagination_class = NoticePagination
+    
+class SearchEventView(ListAPIView):
+    queryset = Notice.objects.filter(category_name="2")
+    serializer_class = NoticeSerializer
+    pagination_class = NoticePagination
