@@ -10,6 +10,9 @@ urlpatterns = [
     path('<int:board_id>/comment/<int:boardcomment_id>/', views.BoardCommentDetailView.as_view(), name='board_comment_deatil_view'),
     path('all/', views.SearchBoardView.as_view(), name='search_board_view'),
     path('webtoonall/', views.SearchWebtoonView.as_view(), name='search_webtoon_view'),
+    path('discussion/', views.SearchDiscussionView.as_view(), name='search_discussion_view'),
+    path('fanboard/', views.SearchFanboardView.as_view(), name='search_fanboard_view'),
+    
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
