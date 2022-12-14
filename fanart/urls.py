@@ -8,5 +8,6 @@ urlpatterns = [
     path("search/<int:webtoon_id>/",views.FanartWebtoonListView.as_view()),
     path("<int:fanart_id>/", views.FanartView.as_view()),
     path("<int:fanart_id>/comment/", views.FanartCommentView.as_view()),
-    path("<int:fanart_id>/comment/<int:comment_id>", views.FanartCommentView.as_view())
+    path("<int:fanart_id>/comment/<int:comment_id>", views.FanartCommentView.as_view()),
+    path("<int:fanart_id>/like/", views.FanartLike.as_view())
 ]
