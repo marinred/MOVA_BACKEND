@@ -57,6 +57,9 @@ class UsersampleSerializer(serializers.ModelSerializer):
 class FanartGetListSerializer(serializers.ModelSerializer):
     image = FanartImageGetSerializer()
     user = UsersampleSerializer()
+    webtoon= serializers.SerializerMethodField()
+    def get_webtoon(self, obj):
+        return obj.webtoon.title
     class Meta:
         model = Fanart
         fields = '__all__'

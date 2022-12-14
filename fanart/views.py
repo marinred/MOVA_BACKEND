@@ -70,9 +70,25 @@ class FanartListView(APIView):
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     def get(self, request):
+        serializer_list = []
         fanart = Fanart.objects.all()
         serializer = FanartGetListSerializer(fanart, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        serializer_list.append(serializer.data)
+        fanart_likes = Fanart.objects.all()
+        serializer_likes = FanartGetListSerializer(fanart_likes,many=True)
+        serializer_list.append(serializer_likes.data)
+        return Response(serializer_list,status=status.HTTP_200_OK)
+
+class FanartWebtoonListView(APIView):
+    def get(self, request, webtoon_id):
+        serializer_list = []
+        fanart = Fanart.objects.filter(webtoon_id=webtoon_id)
+        serializer = FanartGetListSerializer(fanart, many=True)
+        serializer_list.append(serializer.data)
+        fanart_likes = Fanart.objects.all()
+        serializer_likes = FanartGetListSerializer(fanart_likes,many=True)
+        serializer_list.append(serializer_likes.data)
+        return Response(serializer_list,status=status.HTTP_200_OK)
 
 class FanartView(APIView):
 
@@ -111,3 +127,4 @@ class FanartCommentView(APIView):
         comment = FanartComment.objects.get(id=comment_id)
         comment.delete()
         return Response("삭제완료",status=status.HTTP_200_OK)
+
