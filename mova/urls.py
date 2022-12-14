@@ -10,6 +10,7 @@ urlpatterns = [
     path("notice/", include("notice.urls")),
     path("board/", include("board.urls")),
     path("", include("webtoon.urls")),
+    path("accounts/", include("accounts.urls")),
     path("fanart/", include("fanart.urls")),
 ]
 
