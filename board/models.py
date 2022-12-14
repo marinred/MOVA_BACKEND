@@ -3,14 +3,19 @@ from user.models import User
 from webtoon.models import Webtoon
 
 # Create your models here.
+class BoardCategory(models.Model):
+    category_name = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.category_name
+
 
 class Board(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     webtoon = models.ForeignKey(Webtoon, on_delete=models.CASCADE)
-    category = models.CharField(max_length=30)
+    category_name = models.ForeignKey(BoardCategory, on_delete=models.CASCADE)
     title = models.CharField(max_length=30)
     content = models.TextField()
-    image = models.ImageField(upload_to='', max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

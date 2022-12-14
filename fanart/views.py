@@ -44,10 +44,12 @@ class BaseImageView(APIView):
 class ColorizationView(APIView):
     def post(self, request):
         serializer = FanartImageSerializer(data=request.data) # resize_image, hint_image 불러와서
+        print(request.data)
         if serializer.is_valid():
             serializer.save() # resize_image, hint_image 저장
-            resize_image = BaseImage.objects.get(id=serializer.data['resize_image']).image.name # colorization 함수 실행을 위해 resize_image 이름 가져옴
+            resize_image = BaseImage.objects.get(id=serializer.data['resize_image']).image.url[1:] # colorization 함수 실행을 위해 resize_image 이름 가져옴
             hint_image = serializer.data['hint_image'][1:] # colorization 함수 실행을 위해 hint_image 이름 가져옴
+            print(resize_image, hint_image)
             result_image = colorization(resize_image, hint_image) 
             fanart_image = FanartImage.objects.get(id=serializer.data['id'])
             fanart_image.result_image = result_image
@@ -60,12 +62,6 @@ class ColorizationView(APIView):
 
 
 class FanartListView(APIView):
-    def get(self, request):
-        fanart = Fanart.objects.all()
-        serializer = FanartGetListSerializer(fanart, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
-
-class FanartView(APIView):
     def post(self, request):
         serializer = FanartSerializer(data=request.data)
         if serializer.is_valid():
@@ -73,9 +69,18 @@ class FanartView(APIView):
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        fanart = Fanart.objects.all()
+        serializer = FanartGetListSerializer(fanart, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class FanartView(APIView):
 
     def get(self, request, fanart_id):
+        print(fanart_id)
+        print(type(fanart_id))
         fanart = Fanart.objects.get(id=fanart_id)
+        print(fanart)
         serializer = FanartGetSerializer(fanart)
         return Response(serializer.data,status=status.HTTP_200_OK)
 

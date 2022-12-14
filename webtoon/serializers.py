@@ -22,17 +22,20 @@ class WebtoonDetailVeiwSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Webtoon
-        fields = ('id', 'platform', 'title', 'author', 'image_url', 'summary', 'genre', 'day_of_the_week', 'webtoon_link', 'likes_count', 'bookmarks_count',)
+        fields = ('id', 'platform', 'title', 'author', 'image_url', 'summary', 'genre', 'day_of_the_week', 'webtoon_link', 'likes_count', 'bookmarks_count', 'webtoon_likes', 'webtoon_bookmarks',)
         
 class WebtoonCommentSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
     
     def get_username(self, obj):
         return obj.user.username
+    def get_image(self, obj):
+        return obj.user.image.url
     
     class Meta:
         model = WebtoonComment
-        fields = ('id', 'username', 'webtoon', 'content', 'created_at' , 'updated_at',)
+        fields = ('id', 'username', 'image', 'webtoon', 'content', 'created_at' , 'updated_at',)
         
 class WebtoonCommentCreateSerializer(serializers.ModelSerializer):
     class Meta:

@@ -11,6 +11,7 @@ urlpatterns = [
     path("board/", include("board.urls")),
     path("", include("webtoon.urls")),
     path("accounts/", include("accounts.urls")),
+    path("fanart/", include("fanart.urls")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
