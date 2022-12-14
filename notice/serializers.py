@@ -17,4 +17,4 @@ class NoticeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Notice
-        fields = ("id","notice_user","notice_user_profile_image","title","content","created_at","updated_at","category_name", "notice_category_name")
+        fields = ("id","notice_user","notice_user_profile_image","title","content","created_at","updated_at","category_name", "notice_category_name",)

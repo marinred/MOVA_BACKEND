@@ -10,13 +10,10 @@ from django.shortcuts import get_object_or_404
 class UserView(APIView):
     #회원가입
     def post(self, request):
-        REGEX_EMAIL = '([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
         
         if User.objects.filter(email = request.data["email"]):
             return Response({"message" : "이미 가입된 이메일 입니다.\n다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
         
-        elif request.data["email"] != REGEX_EMAIL:
-            return Response({"message" : "이메일 양식 확인 후 다시 시도해주세요.\n다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
         
         elif User.objects.filter(username = request.data["username"]):
             return Response({"message" : "이미 가입된 닉네임 입니다.\n다시 시도해주세요."}, status=status.HTTP_400_BAD_REQUEST)
