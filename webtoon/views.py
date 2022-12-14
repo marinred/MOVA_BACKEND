@@ -26,10 +26,15 @@ class WebtoonView(APIView):
         bookmarks_webtoon = user.webtoon_bookmarks_set.all()
         bookmarks_webtoon_serializer = WebtoonViewSerializer(bookmarks_webtoon, many=True)
         
+        user = self.request.user
+        likes_webtoon = user.webtoon_likes_set.all()
+        likes_webtoon_serializer = WebtoonViewSerializer(likes_webtoon, many=True)
+        
         response_data = []
         response_data.append(naver_today_webtoon_serializer.data)
         response_data.append(kakao_today_webtoon_serializer.data)
         response_data.append(bookmarks_webtoon_serializer.data)
+        response_data.append(likes_webtoon_serializer.data)
         return Response(response_data, status=status.HTTP_200_OK)
 
 # Webtoon Detailpage

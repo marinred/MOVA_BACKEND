@@ -40,3 +40,5 @@ class UserProfileUpdateSerializers(serializers.ModelSerializer):
         fields = ("username", "bio","image",)
     
     #extra_kwargs = {'image': {'required': False}}
+    
+# 좋아요한 웹툰 목록

@@ -37,13 +37,16 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework.authtoken",
 
     "user",
     "fanart",
     "webtoon",  
     "notice",
     "board",
+    "accounts",
 ]
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

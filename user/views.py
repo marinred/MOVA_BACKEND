@@ -8,7 +8,8 @@ from django.shortcuts import get_object_or_404
 #from webtoon.serializers import WebtoonSerializer
 
 class UserView(APIView):
-    def post(self, request): #회원가입
+    #회원가입
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -27,10 +28,12 @@ class ProfileView(APIView):
         serializer_user = UserProfileSerializers(user)
         return Response(serializer_user.data, status=status.HTTP_200_OK)
     
-#프로필 수정
+#프로필 수정  
     def put(self, request):
+        print(request.data)
         user = get_object_or_404(User, id=request.user.id)
         serializer = UserProfileUpdateSerializers(user, data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -40,8 +43,9 @@ class ProfileView(APIView):
 #회원탈퇴
     def delete(self, request):
         user = get_object_or_404(User, id=request.user.id)
-        if user.username == request.data["username"]:
+        if user.email == request.data["email"]:
             user.delete()
             return Response("성공")
         else:
             return Response("실패")
+        
