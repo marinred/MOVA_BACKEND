@@ -89,8 +89,9 @@
     - 스케치 따기 기능
     
 ## 와이어프레임
-https://www.figma.com/file/2wXsZhQlOURcWATyJzz2he/Untitled?node-id=0%3A1&t=1Sm22iCgAOGjt3Sy-0
-![Figma](https://user-images.githubusercontent.com/112370211/204183124-1c8f9175-e3b6-49a4-bb6d-fed04774f3df.png)
+[https://www.figma.com/file/PQ2QMjtryocR803csfCQdL/Untitled?node-id=0%3A1&t=lqWiwBzbHidYZDRz-0](https://www.figma.com/file/PQ2QMjtryocR803csfCQdL/Untitled?node-id=0%3A1&t=lqWiwBzbHidYZDRz-0)
+![image](https://user-images.githubusercontent.com/113073174/207761107-4d2305a4-a03b-4f07-922c-accda9b17eef.png)
+
 
 
 ## DB 설계
@@ -151,6 +152,6 @@ https://www.figma.com/file/2wXsZhQlOURcWATyJzz2he/Untitled?node-id=0%3A1&t=1Sm22
 [Colorization_Tool_on_Web](https://github.com/yangco-le/Colorization_Tool_on_Web)
 
 ## 프로젝트 시연영상
-![image](https://user-images.githubusercontent.com/113073174/204188971-949176c9-1b0e-471b-90e2-c257f54d5ac9.png)
-![프로젝트 시연영상](https://www.youtube.com/watch?v=dH_CHanu6E4)
+![image](https://user-images.githubusercontent.com/113073174/207761398-d2db14a7-cdb4-4051-b8b0-61065ee06c98.png)
+![프로젝트 시연영상](https://www.youtube.com/watch?v=bVhm_Z2KKZ0)
 
