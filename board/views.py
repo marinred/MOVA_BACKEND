@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter
+from rest_framework.filters import OrderingFilter
 from board.pagination import BoardPagination
 from board.pagination import WebtoonPagination
 from rest_framework import status
@@ -96,7 +97,8 @@ class SearchBoardView(ListAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardDetailSerializer
     pagination_class = BoardPagination
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
+    ordering_fields = ('id',)
     search_fields = ('title',)
     
 class SearchWebtoonView(ListAPIView):
@@ -110,15 +112,15 @@ class SearchDiscussionView(ListAPIView):
     queryset = Board.objects.filter(category_name="1")
     serializer_class = BoardDetailSerializer
     pagination_class = BoardPagination
-    filter_backends = [SearchFilter]
-    search_fields = ('title',)
+    filter_backends = [OrderingFilter]
+    ordering_fields = ('id',)
 
 class SearchFanboardView(ListAPIView):
     queryset = Board.objects.filter(category_name="2")
     serializer_class = BoardDetailSerializer
     pagination_class = BoardPagination
-    filter_backends = [SearchFilter]
-    search_fields = ('title',)
+    filter_backends = [OrderingFilter]
+    ordering_fields = ('id',)
     
     
 class CreateBoardView(APIView):
