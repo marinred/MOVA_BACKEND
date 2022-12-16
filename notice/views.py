@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from notice.models import Notice
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter
+from rest_framework.filters import OrderingFilter
 from notice.pagination import NoticePagination
 from notice.serializers import NoticeSerializer
 
@@ -49,15 +50,20 @@ class SearchAllView(ListAPIView):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
     pagination_class = NoticePagination
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
+    ordering_fields = ('id',)
     search_fields = ('title',)
     
 class SearchNoticeView(ListAPIView):
     queryset = Notice.objects.filter(category_name="1")
     serializer_class = NoticeSerializer
     pagination_class = NoticePagination
+    filter_backends = [OrderingFilter]
+    ordering_fields = ('id',)
     
 class SearchEventView(ListAPIView):
     queryset = Notice.objects.filter(category_name="2")
     serializer_class = NoticeSerializer
     pagination_class = NoticePagination
+    filter_backends = [OrderingFilter]
+    ordering_fields = ('id',)
