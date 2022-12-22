@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework.authtoken",
-
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.kakao",
     "user",
     "fanart",
     "webtoon",  
@@ -48,6 +53,8 @@ INSTALLED_APPS = [
     "accounts",
 ]
 SITE_ID = 1
+
+REST_USE_JWT = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
