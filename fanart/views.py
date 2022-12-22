@@ -14,6 +14,7 @@ from rest_framework import status
 from .colorization import sketchProcess
 from .colorization import colorization
 from uuid import uuid4
+import base64
 from .models import FanartImage
 from .models import BaseImage
 from .models import Fanart
