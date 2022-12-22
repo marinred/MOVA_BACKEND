@@ -111,7 +111,6 @@ class FanartView(APIView):
         print(fanart_id)
         print(type(fanart_id))
         fanart = Fanart.objects.get(id=fanart_id)
-        print(fanart)
         serializer = FanartGetSerializer(fanart)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
