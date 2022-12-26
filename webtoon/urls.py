@@ -4,6 +4,7 @@ from webtoon import views
 urlpatterns = [
     path('', views.WebtoonView.as_view(), name='webtoon_view'),
     path('all/', views.AllWebtoonView.as_view(), name='all_webtoon'),
+    path('hotmova/', views.HotMovaView.as_view(), name='hotmova_webtoon'),
     path('naver/', views.NaverWebtoonView.as_view(), name='naver_webtoon'),
     path('naverend/', views.NaverEndWebtoonView.as_view(), name='naver_end_webtoon'),
     path('kakao/', views.KakaoWebtoonView.as_view(), name='kakao_webtoon'),
