@@ -8,6 +8,7 @@ import datetime
 from webtoon.pagination import WebtoonMPagination
 from webtoon.models import Webtoon, WebtoonComment
 from webtoon.serializers import WebtoonViewSerializer, WebtoonDetailVeiwSerializer, WebtoonCommentSerializer, WebtoonCommentCreateSerializer
+from django.db.models import Count
 
 # Webtoon Mainpage
 class WebtoonView(APIView):
@@ -112,6 +113,12 @@ class WebtoonDetailCommentView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
+        
+class HotMovaView(APIView):
+    def get(self, request):
+        hot_mova = Webtoon.objects.annotate(like_count = Count('webtoon_likes')).order_by('-like_count')[:9]
+        serializer = WebtoonViewSerializer(hot_mova, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
 # Category Webtoon View
 class AllWebtoonView(ListAPIView):
