@@ -14,6 +14,7 @@ from rest_framework import status
 from .colorization import sketchProcess
 from .colorization import colorization
 from uuid import uuid4
+import base64
 from .models import FanartImage
 from .models import BaseImage
 from .models import Fanart
@@ -40,7 +41,10 @@ class BaseImageView(APIView):
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        with open("media/"+image_url, "rb") as image2string:
+            converted_string = base64.b64encode(image2string.read())
+        image_data = 'data:image/png;base64,'+str(converted_string)[2:-1]
+        return Response({'serializer.data':serializer.data,'image_data':image_data},status=status.HTTP_200_OK)
 
 class ColorizationView(APIView):
     def post(self, request):
