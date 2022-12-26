@@ -11,6 +11,7 @@ from user.serializers import UserSerializer, CustomObtainPairSerializer,  UserPr
 from django.shortcuts import get_object_or_404
 import requests
 import os
+from django.contrib.auth.views import PasswordResetView
 
 class UserView(APIView):
     #회원가입
@@ -140,4 +141,8 @@ class KakaoLogin(SocialLoginView):
     adapter_class = kakao_view.KakaoOAuth2Adapter
     callback_url = KAKAO_CALLBACK_URI
     client_class = OAuth2Client
+    
+class CustomPasswordResetView(PasswordResetView):
+    email_template_name = "regist/password_reset_email.html"
+    subject_template_name = "regist/password_reset_subject.html"
         
