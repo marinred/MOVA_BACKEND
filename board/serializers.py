@@ -74,6 +74,9 @@ class BoardCommentCreateSerializer(serializers.ModelSerializer):
     def get_comments_user_id(self, obj):
         return obj.user.id
     
+    def get_comments_user_id(self, obj):
+        return obj.user.id
+    
     class Meta:
         model = BoardComment
         fields = ('id', 'comments_user_id', 'comment', 'comments_board', 'comments_user',)

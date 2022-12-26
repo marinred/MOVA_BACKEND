@@ -13,6 +13,7 @@ import requests
 import os
 from django.contrib.auth.views import PasswordResetView
 
+
 class UserView(APIView):
     #회원가입
     def post(self, request):
@@ -61,6 +62,7 @@ class ProfileView(APIView):
             return Response("성공")
         else:
             return Response("실패")
+
 # 카카오 소셜로그인
 BASE_URL = 	"https://www.chorim.shop/"
 KAKAO_CALLBACK_URI = "https://mo-va.site/signup.html"
@@ -70,9 +72,11 @@ class KakaoLoginView(APIView):
         client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID","")
         return Response(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code&scope=account_email")
 
+
 class KakaoCasllbackView(APIView):
     def get(self, request):
         client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID", "")
+
         code = request.GET.get("code")
 
         # code로 access token 요청
@@ -85,6 +89,7 @@ class KakaoCasllbackView(APIView):
             raise Response(error)
 
         access_token = token_response_json.get("access_token")
+
 
         profile_request = requests.post(
             "https://kapi.kakao.com/v2/user/me",
@@ -136,8 +141,8 @@ class KakaoCasllbackView(APIView):
 class KakaoLogin(SocialLoginView):
     adapter_class = kakao_view.KakaoOAuth2Adapter
     callback_url = KAKAO_CALLBACK_URI
-    client_class = OAuth2Client
 
 class CustomPasswordResetView(PasswordResetView):
     email_template_name = "regist/password_reset_email.html"
     subject_template_name = "regist/password_reset_subject.html"        
+
