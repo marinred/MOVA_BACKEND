@@ -17,13 +17,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY','')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', '0') == '1'
 
 
-ALLOWED_HOSTS = ['backend', ]
+ALLOWED_HOSTS = ['backend','https://mo-va.site','https://www.mo-va.site']
 
 
 # Application definition
@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework.authtoken",
-
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.kakao",
     "user",
     "fanart",
     "webtoon",  
@@ -49,6 +54,8 @@ INSTALLED_APPS = [
 ]
 SITE_ID = 1
 
+REST_USE_JWT = True
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -56,7 +63,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=6000),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=100),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
@@ -83,7 +90,7 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=6000),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=100),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
@@ -97,8 +104,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "mova.urls"
 
@@ -196,6 +201,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
 # email
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 # 메일을 보내는 호스트 서버
 EMAIL_HOST = 'smtp.gmail.com'
 
@@ -203,10 +211,10 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 
 #  발신할 이메일 주소 '~@gmail.com'
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 
 # 발신할 이메일 비밀번호 (2단계 인증일경우 앱 비밀번호)
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
 # TLS 보안 방법 (SMPT 서버와 통신할 떄 TLS (secure) connection 을 사용할지 말지 여부)
 EMAIL_USE_TLS = True
@@ -214,5 +222,18 @@ EMAIL_USE_TLS = True
 # 사이트와 관련한 자동응답을 받을 이메일 주소
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-CORS_ORIGIN_WHITELIST = ['http://3.37.62.214']
+CORS_ALLOWED_ORIGINS = [
+        "https://chorim.shop",
+        "https://www.chorim.shop",
+        'https://www.mo-va.site',
+        'https://mo-va.site',
+]
+
+# CORS 허용 목록에 ec2 ip를 추가합니다.
+CORS_ORIGIN_WHITELIST = ['https://www.chorim.shop','https://chorim.shop','https://www.mo-va.site','https://mo-va.site',]
+
+# CSRF 허용 목록을 CORS와 동일하게 설정합니다.
 CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+
+CORS_ALLOW_CREDENTIALS = True
+
