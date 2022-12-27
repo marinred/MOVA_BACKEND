@@ -11,6 +11,8 @@ from user.serializers import UserSerializer, CustomObtainPairSerializer,  UserPr
 from django.shortcuts import get_object_or_404
 import requests
 import os
+from django.contrib.auth.views import PasswordResetView
+
 
 class UserView(APIView):
     #회원가입
@@ -44,10 +46,8 @@ class ProfileView(APIView):
     
 #프로필 수정  
     def put(self, request):
-        print(request.data)
         user = get_object_or_404(User, id=request.user.id)
         serializer = UserProfileUpdateSerializers(user, data=request.data)
-        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -62,20 +62,21 @@ class ProfileView(APIView):
             return Response("성공")
         else:
             return Response("실패")
-        
+
 # 카카오 소셜로그인
-BASE_URL = 	"http://127.0.0.1:8000/"
-KAKAO_CALLBACK_URI = "http://127.0.0.1:5500/signup.html"
+BASE_URL = 	"https://www.chorim.shop/"
+KAKAO_CALLBACK_URI = "https://mo-va.site/signup.html"
 
 class KakaoLoginView(APIView):
     def get(self, request):
         client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID","")
         return Response(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code&scope=account_email")
-    
+
+
 class KakaoCasllbackView(APIView):
     def get(self, request):
         client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID", "")
-        print(client_id)
+
         code = request.GET.get("code")
 
         # code로 access token 요청
@@ -86,9 +87,10 @@ class KakaoCasllbackView(APIView):
         error = token_response_json.get("error", None)
         if error is not None:
             raise Response(error)
-        
+
         access_token = token_response_json.get("access_token")
-        
+
+
         profile_request = requests.post(
             "https://kapi.kakao.com/v2/user/me",
             headers={"Authorization": f"Bearer {access_token}"},
@@ -97,7 +99,7 @@ class KakaoCasllbackView(APIView):
 
         kakao_account = profile_json.get("kakao_account")
         email = kakao_account.get("email", None) # 이메일!
-        
+
         try:
             # 전달받은 이메일로 등록된 유저가 있는지 탐색
             user = User.objects.get(email=email)
@@ -135,9 +137,12 @@ class KakaoCasllbackView(APIView):
             accept_json = accept.json()
             accept_json.pop('user', None)
             return Response(accept_json)
-    
+
 class KakaoLogin(SocialLoginView):
     adapter_class = kakao_view.KakaoOAuth2Adapter
     callback_url = KAKAO_CALLBACK_URI
-    client_class = OAuth2Client
-        
+
+class CustomPasswordResetView(PasswordResetView):
+    email_template_name = "regist/password_reset_email.html"
+    subject_template_name = "regist/password_reset_subject.html"        
+

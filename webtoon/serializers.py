@@ -28,7 +28,7 @@ class WebtoonCommentSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
-    
+
     def get_username(self, obj):
         return obj.user.username
     def get_image(self, obj):
