@@ -41,13 +41,12 @@ class BaseImageView(APIView):
             image_url = sketchProcess(img_name)
             serializer.save(image=image_url)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
         with open("media/"+image_url, "rb") as image2string:
             converted_string = base64.b64encode(image2string.read())
         image_data = 'data:image/png;base64,'+str(converted_string)[2:-1]
-        return Response({'serializer.data': serializer.data, 'image_data': image_data}, status=status.HTTP_200_OK)
-
+        return Response({'serializer.data':serializer.data,'image_data':image_data},status=status.HTTP_200_OK)
 
 class ColorizationView(APIView):
     def post(self, request):
