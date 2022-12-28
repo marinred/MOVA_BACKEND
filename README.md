@@ -120,7 +120,7 @@
 
 ## API 설계
 - Postman 활용하여 만든 api 명세서
-https://documenter.getpostman.com/view/24027867/2s8Z6x2Z38#bdabe0f7-9537-4abe-9b45-96f229dddf0e
+https://documenter.getpostman.com/view/24027867/2s8Z6x2Z38
 
 
 
@@ -129,7 +129,7 @@ https://documenter.getpostman.com/view/24027867/2s8Z6x2Z38#bdabe0f7-9537-4abe-9b
 
 ## 프로젝트 시연영상
 ![image](https://user-images.githubusercontent.com/113073174/207761398-d2db14a7-cdb4-4051-b8b0-61065ee06c98.png)
-[프로젝트 시연영상](https://www.youtube.com/watch?v=bVhm_Z2KKZ0)
+[프로젝트 시연영상](https://www.youtube.com/watch?v=00SJS3V2pdw&t=3s)
 
 
 ## 트러블 슈팅
